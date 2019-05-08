@@ -21,7 +21,7 @@
 ### **The inventory list**
      * If the user selects their inventory list they will be able to see their current inventory
      * The user will be able to remove items in their inventory in the case they no longer have the item
-## **Enchancements**
+## **Enhancements**
      * Using OMDB to include movies available to be added to their inventory
      * Adding a favorites/wish list for them to reference
      * Adding Ebay so they can see listings for their items in their favorites
