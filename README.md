@@ -1,2 +1,2 @@
 # project-one
-First group project for team to be named later
+First group project for Gaurdians of the GitHub
