@@ -9,6 +9,8 @@ var group = "";
 var title = "";
 var issueNumber = "";
 var publishYear = "";
+var upc = "";
+var youTubeApiKey = "AIzaSyBcitIxopM2jyltwYAVk9qELClFOuHc0D8"
 var apiKey = "ff8b709602975b5a96f9be6741475400";
 var privateKey = "f7963e274cda4d92a76dd0c475e513e5d9dc7708";
 
@@ -27,6 +29,7 @@ function displayCollectionMedia() {
     issueNumber = $("#issue-number-input").val().trim();
     publishYear = $("#publish-year-input").val().trim();
     getCharacterDetails();
+    getYoutubeTrailerForCharacter(hero);
     if (group) {
         getGroupDetails();
     }
@@ -163,6 +166,41 @@ function displayComicImage(url) {
     image.attr("src", url);
     image.attr("alt", "group image");
     $("#issue-image").append(image);
+}
+
+/**
+ * Call YouTube API for official trailer for hero
+ */
+function getYoutubeTrailerForCharacter (hero) {
+    event.preventDefault();
+    var queryURL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q="+ hero + "+official+trailer&type=video&videoCaption=closedCaption&key=" + youTubeApiKey;
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    })
+        .then(function (response) {
+            if (response) {
+                if (response.items[0].id.videoId) {
+                    var id = response.items[0].id.videoId;
+                    displayYoutubeTrailer(id);
+                }
+                else {
+                    alert("Invalid Input");
+                }
+
+            }
+        });
+}
+
+/**
+ * Render official trailer from response using videoId
+ * @param id 
+*/
+function displayYoutubeTrailer(id) {
+    var video = "https://www.youtube.com/embed/" + id
+    var youtubeFrame = $("<iframe >", { src: video, frameborder: "0", height: "315", width: "560", allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"})
+    $("#youtube-video").append(youtubeFrame);
 }
 
 
