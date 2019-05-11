@@ -21,7 +21,7 @@ var youtubeVideo = $("#youtube-video");
 var heroInput = $("#hero-name-input");
 var groupInput = $("#group-input");
 var titleInput = $("#title-name-input")
-var issueNumberInput = $("#title-name-input");
+var issueNumberInput = $("#issue-number-input");
 var publishYearInput = $("#publish-year-input");
 
 /**
@@ -79,7 +79,8 @@ function getCharacterDetails() {
                     var tnPath = response.data.results[0].thumbnail.path;
                     var tnExtension = response.data.results[0].thumbnail.extension;
                     var tnURL = tnPath + "." + tnExtension;
-                    displayCharacterImage(tnURL);
+                    var description = response.data.results[0].description;
+                    displayCharacterImage(tnURL, description);
                 }
                 else {
                     alert("Invalid Input");
@@ -110,7 +111,8 @@ function getGroupDetails() {
                     var tnPath = response.data.results[0].thumbnail.path;
                     var tnExtension = response.data.results[0].thumbnail.extension;
                     var tnURL = tnPath + "." + tnExtension;
-                    displayGroupImage(tnURL);
+                    var description = response.data.results[0].description;
+                    displayGroupImage(tnURL, description);
                 }
                 else {
                     alert("Invalid Input");
@@ -141,10 +143,15 @@ function getComicDetails() {
         .then(function (response) {
             if (response) {
                 if (response.data.results[0]) {
+                    console.log(response);
                     var tnPath = response.data.results[0].thumbnail.path;
                     var tnExtension = response.data.results[0].thumbnail.extension;
                     var tnURL = tnPath + "." + tnExtension;
-                    displayComicImage(tnURL);
+                    var description = ""
+                    if (response.data.results[0].textObjects[0]) {
+                        description = response.data.results[0].textObjects[0].text
+                    }
+                    displayComicImage(tnURL, description);
                 }
                 else {
                     alert("Invalid Input");
@@ -157,34 +164,49 @@ function getComicDetails() {
 /**
  * Render character image from path to thumnail
  * @param url 
+ * @param description
  */
-function displayCharacterImage(url) {
+function displayCharacterImage(url, description) {
     var image = $("<img>");
     image.attr("src", url);
     image.attr("alt", "character image");
     $("#character-image").append(image);
+    var desc = $("<p>");
+    desc.attr("id","char-desc");
+    desc.text(description);
+    $("#character-image").append(desc);
 }
 
 /**
  * Render group image from path to thumnail
  * @param url 
+ * @param description
 */
-function displayGroupImage(url) {
+function displayGroupImage(url, description) {
     var image = $("<img>");
     image.attr("src", url);
     image.attr("alt", "group image");
     $("#group-image").append(image);
+    var desc = $("<p>");
+    desc.attr("id","group-desc");
+    desc.text(description);
+    $("#group-image").append(desc);
 }
 
 /**
  * Render comic image from path to thumnail
  * @param url 
+ * @param description 
 */
-function displayComicImage(url) {
+function displayComicImage(url, description) {
     var image = $("<img>");
     image.attr("src", url);
     image.attr("alt", "group image");
     $("#issue-image").append(image);
+    var desc = $("<p>");
+    desc.attr("id","issue-desc");
+    desc.text(description);
+    $("#issue-image").append(desc);
 }
 
 /**
