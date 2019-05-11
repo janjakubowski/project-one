@@ -4,6 +4,7 @@
  * Date: 2019-05-09
  ***********************************************/
 // Global Variables
+var searchTopic;
 var hero = "";
 var group = "";
 var title = "";
@@ -21,7 +22,7 @@ var youtubeVideo = $("#youtube-video");
 var heroInput = $("#hero-name-input");
 var groupInput = $("#group-input");
 var titleInput = $("#title-name-input")
-var issueNumberInput = $("#title-name-input");
+var issueNumberInput = $("#issue-number-input");
 var publishYearInput = $("#publish-year-input");
 
 /**
@@ -47,14 +48,16 @@ function displayCollectionMedia() {
     issueNumberInput.val("");
     publishYear = publishYearInput.val().trim();
     publishYearInput.val("");
-    getCharacterDetails();
-    getYoutubeTrailerForCharacter(hero);
+    if(hero) {
+        getCharacterDetails();
+    }
     if (group) {
         getGroupDetails();
     }
     if (title && issueNumber) {
         getComicDetails();
     }
+    getYoutubeTrailerForCharacter(hero, group);
     ///////End Trash Code
 }
 
@@ -74,7 +77,6 @@ function getCharacterDetails() {
     })
         .then(function (response) {
             if (response) {
-                console.log(response);
                 if (response.data.results[0]) {
                     var tnPath = response.data.results[0].thumbnail.path;
                     var tnExtension = response.data.results[0].thumbnail.extension;
@@ -105,7 +107,6 @@ function getGroupDetails() {
     })
         .then(function (response) {
             if (response) {
-                console.log(response);
                 if (response.data.results[0]) {
                     var tnPath = response.data.results[0].thumbnail.path;
                     var tnExtension = response.data.results[0].thumbnail.extension;
@@ -190,9 +191,17 @@ function displayComicImage(url) {
 /**
  * Call YouTube API for official trailer for hero
  */
-function getYoutubeTrailerForCharacter (hero) {
+function getYoutubeTrailerForCharacter (hero, group) {
+
+    if (group) {
+        searchTopic = group;
+    }
+    else {
+        searchTopic = hero;
+    }
+
     event.preventDefault();
-    var queryURL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q="+ hero + "+official+trailer&type=video&videoCaption=closedCaption&key=" + youTubeApiKey;
+    var queryURL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q="+ searchTopic + "+official+trailer&type=video&videoCaption=closedCaption&key=" + youTubeApiKey;
 
     $.ajax({
         url: queryURL,
