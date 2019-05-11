@@ -9,24 +9,46 @@ var group = "";
 var title = "";
 var issueNumber = "";
 var publishYear = "";
+var youTubeApiKey = "AIzaSyBcitIxopM2jyltwYAVk9qELClFOuHc0D8"
 var apiKey = "ff8b709602975b5a96f9be6741475400";
 var privateKey = "f7963e274cda4d92a76dd0c475e513e5d9dc7708";
+
+// jQuery
+var characterImage = $("#character-image");
+var groupImage = $("#group-image");
+var issueImage = $("#issue-image");
+var youtubeVideo = $("#youtube-video");
+var heroInput = $("#hero-name-input");
+var groupInput = $("#group-input");
+var titleInput = $("#title-name-input")
+var issueNumberInput = $("#title-name-input");
+var publishYearInput = $("#publish-year-input");
 
 /**
  * On click function to dispaly any media associated with the character/group
  */
 function displayCollectionMedia() {
     event.preventDefault();
+    characterImage.empty();
+    groupImage.empty();
+    issueImage.empty();
+    youtubeVideo.empty();
 
     //NOTE: Replace following code with a process to get the required API input fields
     //      form the data base.  The form references are for a temporary test tool
     //////Start Trash code
-    hero = $("#hero-name-input").val().trim();
-    group = $("#group-input").val().trim();
-    title = $("#title-name-input").val().trim();
-    issueNumber = $("#issue-number-input").val().trim();
-    publishYear = $("#publish-year-input").val().trim();
+    hero = heroInput.val().trim();
+    heroInput.val("");
+    group = groupInput.val().trim();
+    groupInput.val("");
+    title = titleInput.val().trim();
+    titleInput.val("");
+    issueNumber = issueNumberInput.val().trim();
+    issueNumberInput.val("");
+    publishYear = publishYearInput.val().trim();
+    publishYearInput.val("");
     getCharacterDetails();
+    getYoutubeTrailerForCharacter(hero);
     if (group) {
         getGroupDetails();
     }
@@ -163,6 +185,41 @@ function displayComicImage(url) {
     image.attr("src", url);
     image.attr("alt", "group image");
     $("#issue-image").append(image);
+}
+
+/**
+ * Call YouTube API for official trailer for hero
+ */
+function getYoutubeTrailerForCharacter (hero) {
+    event.preventDefault();
+    var queryURL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q="+ hero + "+official+trailer&type=video&videoCaption=closedCaption&key=" + youTubeApiKey;
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    })
+        .then(function (response) {
+            if (response) {
+                if (response.items[0].id.videoId) {
+                    var id = response.items[0].id.videoId;
+                    displayYoutubeTrailer(id);
+                }
+                else {
+                    alert("Invalid Input");
+                }
+
+            }
+        });
+}
+
+/**
+ * Render official trailer from response using videoId
+ * @param id 
+*/
+function displayYoutubeTrailer(id) {
+    var video = "https://www.youtube.com/embed/" + id
+    var youtubeFrame = $("<iframe>", { src: video, frameborder: "0", height: "315", width: "560", allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"})
+    $("#youtube-video").append(youtubeFrame);
 }
 
 
