@@ -9,7 +9,6 @@ var group = "";
 var title = "";
 var issueNumber = "";
 var publishYear = "";
-var upc = "";
 var youTubeApiKey = "AIzaSyBcitIxopM2jyltwYAVk9qELClFOuHc0D8"
 var apiKey = "ff8b709602975b5a96f9be6741475400";
 var privateKey = "f7963e274cda4d92a76dd0c475e513e5d9dc7708";
