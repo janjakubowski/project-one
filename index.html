@@ -4,16 +4,33 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Page Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bangers" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-     <script src="main.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+     <!-- <script src="main.js"></script> -->
 </head>
+<body>
+    <style>
+
+        .header{
+            font-family: 'Bangers';
+            background-color: red; 
+            color: white;
+        }
+
+    </Style>
 
  <div class="container">
-     <h1 class="header center black-text">The Marvel Univierse Phantasmagoria</h1>
+     <h1 class="header center white-text">The Marvel Universe Phantasmagoria</h1>
+     
+     <button data-target="modal1" id="modal-marvel" class="btn modal-trigger">Start your search</button>
+     <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Start your search!</a> -->
+
+     <!-- <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalAddTrain">Add a Train</button> -->
+     
      <div class="row center">
          <h5 class="header col s12 light">The ultimate guide to storing and finding your MARVEL universe inventory</h5>
          </div>
@@ -26,47 +43,67 @@
                         <div class="col m1">
                             <button class="btn waves-effect waves-light" type="submit" name="action">
                              <i class="material-icons right">person</i></button>
-
-                        <!-- </div> -->
                         </div>
-                    <div class="col m4">
+                        <div class="col m4">
                             <input value="Alvin" id="first_name2" type="text" class="validate">
                             <label class="active" for="first_name2">Register New User</label>
                         </div>
-                    <div class="col m4">
+                        <div class="col m4">
                             <button class="btn waves-effect waves-light" type="submit" name="action">Browse as Guest
-                             <i class="material-icons right"></i></button>
-       
+                                <i class="material-icons right"></i></button>
+                            </div>
+
                 </div>
+            <!-- </div>
+            </div> -->
+            </div> <!-- end of container-->
+
+ <!-- Modal body Materialize -->
+
+     <div id="modal1" class="modal">
+         <div class="form-content">
+           <h4>Modal Header</h4>
+           <label for="hero-input">Hero Input</label>
+           <input id="hero-input" class="form-content" placeholder="Iron Man" type="text">
+        </div>
+        <div class="form-content">
+            <h4>Modal Header</h4>
+            <label for="Group-name-input">Team Affiliation Input</label>
+            <input id="group-name-input" class="form-content" placeholder="Avengers" type="text">
+        </div>
+    <div class="form-content">
+        <h4>Modal Header</h4>
+             <label for="Title-input">Title Input</label>
+            <input id="title-input" class="form-content" placeholder="Infinity Gauntlant" type="text">
+       </div>  
+    <div class="form-content">
+        <h4>Modal Header</h4>
+             <label for="Issue-number-input">Issue Number Input</label>
+             <input id="Issue-number-input" class="form-content" placeholder="1" type="text">
             </div>
+            <div class="form-content">
+           <h4>Modal Header</h4>
+            <label for="year-issued-input">Year issued Input</label>
+             <input id="year-issued-input" class="form-content" placeholder="1975" type="text">
+         </div>
+                 <div class="modal-footer">
+              <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
             </div>
-            </div>
-
-                             
-
-                
-
-     
- </div>
+          </div>
     
+          
+    </body>
     
-    
-    
-    
-    
-    
-   
- 
- <script type="text/javascript" src="js/materialize.min.js"></script>
 
+ <script>
 
-<script>
-
-
+// $(document).ready(function(){
+    
+    $('#modal-marvel').on("click", function(){
+        $(".modal1").modal();
         
-
-
+    });
+// });
+    
 </script>
-</body>
-</html>
- 
+    
