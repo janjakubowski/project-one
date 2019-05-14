@@ -4,6 +4,7 @@
  * Date: 2019-05-09
  ***********************************************/
 // Global Variables
+var searchTopic;
 var hero = "";
 var group = "";
 var title = "";
@@ -21,7 +22,7 @@ var youtubeVideo = $("#youtube-video");
 var heroInput = $("#hero-name-input");
 var groupInput = $("#group-input");
 var titleInput = $("#title-name-input")
-var issueNumberInput = $("#title-name-input");
+var issueNumberInput = $("#issue-number-input");
 var publishYearInput = $("#publish-year-input");
 
 /**
@@ -47,14 +48,16 @@ function displayCollectionMedia() {
     issueNumberInput.val("");
     publishYear = publishYearInput.val().trim();
     publishYearInput.val("");
-    getCharacterDetails();
-    getYoutubeTrailerForCharacter(hero);
+    if(hero) {
+        getCharacterDetails();
+    }
     if (group) {
         getGroupDetails();
     }
     if (title && issueNumber) {
         getComicDetails();
     }
+    getYoutubeTrailerForCharacter(hero, group);
     ///////End Trash Code
 }
 
@@ -74,12 +77,12 @@ function getCharacterDetails() {
     })
         .then(function (response) {
             if (response) {
-                console.log(response);
                 if (response.data.results[0]) {
                     var tnPath = response.data.results[0].thumbnail.path;
                     var tnExtension = response.data.results[0].thumbnail.extension;
                     var tnURL = tnPath + "." + tnExtension;
-                    displayCharacterImage(tnURL);
+                    var description = response.data.results[0].description;
+                    displayCharacterImage(tnURL, description);
                 }
                 else {
                     alert("Invalid Input");
@@ -105,12 +108,12 @@ function getGroupDetails() {
     })
         .then(function (response) {
             if (response) {
-                console.log(response);
                 if (response.data.results[0]) {
                     var tnPath = response.data.results[0].thumbnail.path;
                     var tnExtension = response.data.results[0].thumbnail.extension;
                     var tnURL = tnPath + "." + tnExtension;
-                    displayGroupImage(tnURL);
+                    var description = response.data.results[0].description;
+                    displayGroupImage(tnURL, description);
                 }
                 else {
                     alert("Invalid Input");
@@ -141,10 +144,15 @@ function getComicDetails() {
         .then(function (response) {
             if (response) {
                 if (response.data.results[0]) {
+                    console.log(response);
                     var tnPath = response.data.results[0].thumbnail.path;
                     var tnExtension = response.data.results[0].thumbnail.extension;
                     var tnURL = tnPath + "." + tnExtension;
-                    displayComicImage(tnURL);
+                    var description = ""
+                    if (response.data.results[0].textObjects[0]) {
+                        description = response.data.results[0].textObjects[0].text
+                    }
+                    displayComicImage(tnURL, description);
                 }
                 else {
                     alert("Invalid Input");
@@ -157,42 +165,65 @@ function getComicDetails() {
 /**
  * Render character image from path to thumnail
  * @param url 
+ * @param description
  */
-function displayCharacterImage(url) {
+function displayCharacterImage(url, description) {
     var image = $("<img>");
     image.attr("src", url);
     image.attr("alt", "character image");
     $("#character-image").append(image);
+    var desc = $("<p>");
+    desc.attr("id","char-desc");
+    desc.text(description);
+    $("#character-image").append(desc);
 }
 
 /**
  * Render group image from path to thumnail
  * @param url 
+ * @param description
 */
-function displayGroupImage(url) {
+function displayGroupImage(url, description) {
     var image = $("<img>");
     image.attr("src", url);
     image.attr("alt", "group image");
     $("#group-image").append(image);
+    var desc = $("<p>");
+    desc.attr("id","group-desc");
+    desc.text(description);
+    $("#group-image").append(desc);
 }
 
 /**
  * Render comic image from path to thumnail
  * @param url 
+ * @param description 
 */
-function displayComicImage(url) {
+function displayComicImage(url, description) {
     var image = $("<img>");
     image.attr("src", url);
     image.attr("alt", "group image");
     $("#issue-image").append(image);
+    var desc = $("<p>");
+    desc.attr("id","issue-desc");
+    desc.text(description);
+    $("#issue-image").append(desc);
 }
 
 /**
  * Call YouTube API for official trailer for hero
  */
-function getYoutubeTrailerForCharacter (hero) {
+function getYoutubeTrailerForCharacter (hero, group) {
+
+    if (group) {
+        searchTopic = group;
+    }
+    else {
+        searchTopic = hero;
+    }
+
     event.preventDefault();
-    var queryURL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q="+ hero + "+official+trailer&type=video&videoCaption=closedCaption&key=" + youTubeApiKey;
+    var queryURL = "https://www.googleapis.com/youtube/v3/search?part=snippet&q="+ searchTopic + "+official+trailer&type=video&videoCaption=closedCaption&key=" + youTubeApiKey;
 
     $.ajax({
         url: queryURL,
