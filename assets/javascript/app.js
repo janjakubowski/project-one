@@ -29,9 +29,9 @@ var publishYearInput = $("#publish-year-input");
  * On click function to dispaly any media associated with the character/group
  */
 
-$(document).ready(function () {
-
-    $(".modal1").modal();
+$(function() {
+    
+    $('#modal1').modal();
 
     function displayCollectionMedia() {
         event.preventDefault();
