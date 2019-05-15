@@ -9,3 +9,14 @@
     background-color: red;
     color: white;
 }
+
+#modal-confirm-header {
+    font-family: 'Bangers';
+    color: white;
+    background-color: red;
+    text-align: center;
+}
+
+#modal-confirm {
+width: 20%;
+}
