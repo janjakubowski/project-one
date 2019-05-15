@@ -12,6 +12,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
     <!-- <script src="main.js"></script> -->
 </head>
 
@@ -47,38 +49,51 @@
                     <i class="material-icons right"></i></button>
             </div>
         </div>
+
+        <section class="row center">
+            <div class="col m4" id="character-image">
+            </div>
+            <div class="col m4" id="group-image">
+            </div>
+            <div class="col m4" id="issue-image">
+            </div>
+        </section>
+        <section>
+            <div class="col m12" id="youtube-video">
+
+            </div>
+        </section>
     </div> <!-- end of container-->
 
     <!-- Modal body Materialize -->
 
     <div id="modal1" class="modal">
         <div class="form-content">
-            <h4>Modal Header</h4>
-            <label for="hero-input">Hero Input</label>
+            <h4>Hero Name</h4>
             <input id="hero-input" class="form-content" placeholder="Iron Man" type="text">
         </div>
         <div class="form-content">
-            <h4>Modal Header</h4>
-            <label for="Group-name-input">Team Affiliation Input</label>
-            <input id="group-name-input" class="form-content" placeholder="Avengers" type="text">
+            <h4>Team Affiliation</h4>
+            <!-- <label for="Group-input">Team Affiliation Input</label> -->
+            <input id="group-input" class="form-content" placeholder="Avengers" type="text">
         </div>
         <div class="form-content">
-            <h4>Modal Header</h4>
-            <label for="Title-input">Title Input</label>
+            <h4>Title</h4>
+            <!-- <label for="Title-input">Title Input</label> -->
             <input id="title-input" class="form-content" placeholder="Infinity Gauntlant" type="text">
         </div>
         <div class="form-content">
-            <h4>Modal Header</h4>
-            <label for="Issue-number-input">Issue Number Input</label>
-            <input id="Issue-number-input" class="form-content" placeholder="1" type="text">
+            <h4>Issue Number</h4>
+            <!-- <label for="Issue-number-input">Issue Number Input</label> -->
+            <input id="issue-number-input" class="form-content" placeholder="1" type="text">
         </div>
         <div class="form-content">
-            <h4>Modal Header</h4>
-            <label for="year-issued-input">Year issued Input</label>
-            <input id="year-issued-input" class="form-content" placeholder="1975" type="text">
+            <h4>Publish Year</h4>
+            <!-- <label for="year-issued-input">Year issued Input</label> -->
+            <input id="publish-year-input" class="form-content" placeholder="1975" type="text">
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="row-entry">Submit</a>
         </div>
     </div>
 
@@ -86,10 +101,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <!-- Firebase Reference-->
-    <!-- <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
 
     <!-- bring in phantasmagoria firebase database and initialize -->
-    <!-- <script type="text/javascript" src="./assets/javascript/dbinit.js"></script> -->
+    <script type="text/javascript" src="./assets/javascript/dbinit.js"></script>
 
     <!-- bring in js-->
     <script type="text/javascript" src="./assets/javascript/app.js"></script>

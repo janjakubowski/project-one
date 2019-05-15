@@ -19,9 +19,9 @@ var characterImage = $("#character-image");
 var groupImage = $("#group-image");
 var issueImage = $("#issue-image");
 var youtubeVideo = $("#youtube-video");
-var heroInput = $("#hero-name-input");
+var heroInput = $("#hero-input");
 var groupInput = $("#group-input");
-var titleInput = $("#title-name-input")
+var titleInput = $("#title-input")
 var issueNumberInput = $("#issue-number-input");
 var publishYearInput = $("#publish-year-input");
 
@@ -258,7 +258,6 @@ $(function() {
         $("#youtube-video").append(youtubeFrame);
     }
 
-
-    /** On-Click for Enter Hero */
-    $(document).on("click", "#row-entry", displayCollectionMedia);
+     /** On-Click for Enter Hero */
+     $(document).on("click", "#row-entry", displayCollectionMedia);
 })
