@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>Marvel Phantasmagoria</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
         media="screen,projection">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -22,7 +22,7 @@
     <div class="container">
         <h1 class="header center white-text">The Marvel Universe Phantasmagoria</h1>
 
-        <button data-target="modal1" id="modal-marvel" class="btn modal-trigger">Start your search</button>
+        <button data-target="modal-search" id="modal-marvel" class="btn modal-trigger">Start your search</button>
         <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Start your search!</a> -->
 
         <!-- <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalAddTrain">Add a Train</button> -->
@@ -40,7 +40,7 @@
                 <label class="active" for="loginUser">Returning User</label>
             </div>
             <div class="col m1">
-                <button class="btn waves-effect waves-light" type="submit" name="action">
+                <button class="login-user btn waves-effect waves-light" type="submit" name="action">
                     <i class="material-icons right">person</i></button>
             </div>
             <div class="col m3">
@@ -74,7 +74,7 @@
 
     <!-- Modal body Materialize -->
 
-    <div id="modal1" class="modal">
+    <div id="modal-search" class="modal">
         <div class="form-content">
             <h4>Hero Name</h4>
             <input id="hero-input" class="form-content" placeholder="Iron Man" type="text">

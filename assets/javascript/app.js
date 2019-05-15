@@ -14,7 +14,10 @@ var youTubeApiKey = "AIzaSyBcitIxopM2jyltwYAVk9qELClFOuHc0D8"
 var apiKey = "ff8b709602975b5a96f9be6741475400";
 var privateKey = "f7963e274cda4d92a76dd0c475e513e5d9dc7708";
 
+// database related global variables
+var userid = "";
 const dbRefUsers = firebase.database().ref().child('users');
+var comicbookRef = ""; // database reference to user's comicbooks after login
 
 // jQuery
 var characterImage = $("#character-image");
@@ -26,6 +29,8 @@ var groupInput = $("#group-input");
 var titleInput = $("#title-input")
 var issueNumberInput = $("#issue-number-input");
 var publishYearInput = $("#publish-year-input");
+var confirmHeader = $("#modal-confirm-header");
+var confirmMsg = $("#modal-confirm-message");
 
 /**
  * On click function to dispaly any media associated with the character/group
@@ -33,7 +38,8 @@ var publishYearInput = $("#publish-year-input");
 
 $(function() {
     
-    $('#modal1').modal();
+    $("#modal-search").modal();
+    $("#modal-confirm").modal();
 
     function displayCollectionMedia() {
         event.preventDefault();
@@ -262,47 +268,64 @@ $(function() {
 
      /** On-Click for Enter Hero */
      $(document).on("click", "#row-entry", displayCollectionMedia);
-     $(document).on("click", ".addNewUser", addUser);
+
+     // login or register new user
+     $(document).on("click", ".add-new-user", addUser);
+     $(document).on("click", ".login-user", loginUser);
+
     //  $(document).on("click", "#row-entry", displayCollectionMedia);
      
-     // 
-     // User functions - call with userid:
-     //      addUser: check if userid exists, pop up success or failure
-     //      loginUser: NO CREDENTIALS are checked, check if userid exists, pop up success or failure
-     //
-     
-     const displayMsg = document.getElementById('displayMsg');
+    // const displayMsg = document.getElementById('displayMsg');
 
-function addUser() {
-
-    var newUserInput = $("#addUser");
+    // **
+    // * add a new user 
+    // * userid is retrieved from the form input  
+    // *
+    function addUser() {
+        
+        var newUserInput = $("#addUser");
         userid = newUserInput.val().trim();      
-    
-    dbRefUsers.child(userid).once("value").then ( snapshot => {
+        
+        dbRefUsers.child(userid).once("value").then ( snapshot => {
             if (snapshot.exists()) {
-                displayMsg.innerText = "Sorry, the name " + userid + " is taken, please try another one";
+                confirmHeader.text("Sorry");
+                confirmMsg.text("The name " + userid + " is taken, please try another one");
             } else {
                 firebase.database().ref('users/'+userid).set({
                     userid: userid
                 });
-                firebase.database().ref(userid).set;
-
-                displayMsg.innerText = "Welcome, " + userid + ".";
+                
+                // firebase.database().ref(userid).set;
+                confirmHeader.text("Welcome");
+                confirmMsg.text("Hi " + userid + ". You are now logged in and ready to go!");
+                comicbookRef = firebase.database().ref(userid+ "/comicbooks");
             };
-          });
-
-}
-
-function loginUser(userid) {
+            $("#modal-confirm").modal("open");
+        });
+    }
     
-  dbRefUsers.child(userid).once("value").then ( snapshot => {
-      if (snapshot.exists()) {
-          displayMsg.innerText = "Welcome back, " + userid + ".  Click xx to see your inventory";
-      } else {
-          displayMsg.innerText = "Sorry, the name " + userid + " is not registered, please register to join the fun";
-      };
-  });
+    // **
+    // * loginan existing user 
+    // * userid is retrieved from the form input
+    // *
+    function loginUser() {
 
-}
+        var userInput = $("#loginUser");
+        userid = userInput.val().trim();
+        
+        dbRefUsers.child(userid).once("value").then ( snapshot => {
+
+            if (snapshot.exists()) {
+                confirmHeader.text("Welcome back!");
+                confirmMsg.text("Hi " + userid + ". Click xx to see your inventory");
+                comicbookRef = firebase.database().ref(userid+ "/comicbooks");
+                // TO DO: after usr clicks OK, where should he be directed
+            } else {
+                confirmHeader.text("Sorry");
+                confirmMsg.text("The name " + userid + " is not registered, please register to join the fun.");
+            };
+            $("#modal-confirm").modal("open");
+        });
+    }
 
 })
