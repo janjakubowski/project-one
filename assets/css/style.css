@@ -3,3 +3,9 @@
  * Team: Guardians of the GitHub
  * Date: 2019-05-09
 *********************************************/
+
+.header {
+    font-family: 'Bangers';
+    background-color: red;
+    color: white;
+}
