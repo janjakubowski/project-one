@@ -14,6 +14,8 @@ var youTubeApiKey = "AIzaSyBcitIxopM2jyltwYAVk9qELClFOuHc0D8"
 var apiKey = "ff8b709602975b5a96f9be6741475400";
 var privateKey = "f7963e274cda4d92a76dd0c475e513e5d9dc7708";
 
+const dbRefUsers = firebase.database().ref().child('users');
+
 // jQuery
 var characterImage = $("#character-image");
 var groupImage = $("#group-image");
@@ -260,4 +262,47 @@ $(function() {
 
      /** On-Click for Enter Hero */
      $(document).on("click", "#row-entry", displayCollectionMedia);
+     $(document).on("click", ".addNewUser", addUser);
+    //  $(document).on("click", "#row-entry", displayCollectionMedia);
+     
+     // 
+     // User functions - call with userid:
+     //      addUser: check if userid exists, pop up success or failure
+     //      loginUser: NO CREDENTIALS are checked, check if userid exists, pop up success or failure
+     //
+     
+     const displayMsg = document.getElementById('displayMsg');
+
+function addUser() {
+
+    var newUserInput = $("#addUser");
+        userid = newUserInput.val().trim();      
+    
+    dbRefUsers.child(userid).once("value").then ( snapshot => {
+            if (snapshot.exists()) {
+                displayMsg.innerText = "Sorry, the name " + userid + " is taken, please try another one";
+            } else {
+                firebase.database().ref('users/'+userid).set({
+                    userid: userid
+                });
+                firebase.database().ref(userid).set;
+
+                displayMsg.innerText = "Welcome, " + userid + ".";
+            };
+          });
+
+}
+
+function loginUser(userid) {
+    
+  dbRefUsers.child(userid).once("value").then ( snapshot => {
+      if (snapshot.exists()) {
+          displayMsg.innerText = "Welcome back, " + userid + ".  Click xx to see your inventory";
+      } else {
+          displayMsg.innerText = "Sorry, the name " + userid + " is not registered, please register to join the fun";
+      };
+  });
+
+}
+
 })
