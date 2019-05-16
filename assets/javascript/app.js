@@ -411,6 +411,7 @@ $(function () {
 
         // Create the new row
         var newRow = $("<tr>");
+        newRow.addClass("inventory-item");
         newRow.attr("id","table-entry");
         newRow.append(displayTableEntry("hero-name", comicbook.heroName));
         newRow.append(displayTableEntry("group-name", comicbook.teamAffiliation));

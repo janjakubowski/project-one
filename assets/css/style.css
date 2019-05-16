@@ -14,8 +14,8 @@ img {
     color: white;
 }
 
-tr:hover {
-    background-color: #ffff99;
+.inventory-item:hover {
+    background-color: #ffff99 !important;
 }
 
 #modal-confirm-header {
@@ -50,8 +50,32 @@ h4{
 }
 
 body {
-    /* background-image: url("./marvel-characters.jpg"); */
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
+    background-image: url("../images/marvel.jpg");
+   -webkit-background-size: cover;
+   -moz-background-size: cover;
     background-size: cover;
 }
+
+#addUser, #loginUser {
+    background: grey;
+}
+
+.active{
+    background-color: grey;
+    color: black;
+    font-size: 15px;
+}
+
+#inventory-table{
+    background-color: black;
+    color: red;
+
+}
+
+
+
+
+
+
+
+
