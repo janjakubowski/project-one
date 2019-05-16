@@ -50,11 +50,12 @@ h4{
 }
 
 body {
-    background-image: url("../images/marvel.jpg");
-   -webkit-background-size: cover;
+    background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("../images/marvel.jpg");
+    -webkit-background-size: cover;
    -moz-background-size: cover;
     background-size: cover;
 }
+
 
 #addUser, #loginUser {
     background: grey;
@@ -66,11 +67,18 @@ body {
     font-size: 15px;
 }
 
-#inventory-table{
-    background-color: black;
-    color: red;
-
+#header, tr:nth-child(even){
+    background-color: #ffffff;
 }
+
+tr:nth-child(odd){
+      background-color: #f2f2f2;
+}
+
+        
+       
+
+
 
 
 
