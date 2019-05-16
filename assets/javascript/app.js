@@ -36,8 +36,8 @@ var confirmMsg = $("#modal-confirm-message");
  * On click function to dispaly any media associated with the character/group
  */
 
-$(function() {
-    
+$(function () {
+
     $("#modal-search").modal();
     $("#modal-confirm").modal();
 
@@ -266,15 +266,27 @@ $(function() {
         $("#youtube-video").append(youtubeFrame);
     }
 
-     /** On-Click for Enter Hero */
-     $(document).on("click", "#row-entry", displayCollectionMedia);
+    /**
+       * Populate a new table cell, assign an id, and return the value
+       * @param id 
+       * @param value 
+       */
+    function displayTableEntry(id, value) {
+        var newEntry = $("<td>");
+        newEntry.attr("id", id);
+        newEntry.text(value);
+        return newEntry;
+    }
 
-     // login or register new user
-     $(document).on("click", ".add-new-user", addUser);
-     $(document).on("click", ".login-user", loginUser);
+    /** On-Click for Enter Hero */
+    $(document).on("click", "#row-entry", displayCollectionMedia);
+
+    // login or register new user
+    $(document).on("click", ".add-new-user", addUser);
+    $(document).on("click", ".login-user", loginUser);
 
     //  $(document).on("click", "#row-entry", displayCollectionMedia);
-     
+
     // const displayMsg = document.getElementById('displayMsg');
 
     // **
@@ -282,28 +294,28 @@ $(function() {
     // * userid is retrieved from the form input  
     // *
     function addUser() {
-        
+
         var newUserInput = $("#addUser");
-        userid = newUserInput.val().trim();      
-        
-        dbRefUsers.child(userid).once("value").then ( snapshot => {
+        userid = newUserInput.val().trim();
+
+        dbRefUsers.child(userid).once("value").then(snapshot => {
             if (snapshot.exists()) {
                 confirmHeader.text("Sorry");
                 confirmMsg.text("The name " + userid + " is taken, please try another one");
             } else {
-                firebase.database().ref('users/'+userid).set({
+                firebase.database().ref('users/' + userid).set({
                     userid: userid
                 });
-                
+
                 // firebase.database().ref(userid).set;
                 confirmHeader.text("Welcome");
                 confirmMsg.text("Hi " + userid + ". You are now logged in and ready to go!");
-                comicbookRef = firebase.database().ref(userid+ "/comicbooks");
+                comicbookRef = firebase.database().ref(userid + "/comicbooks");
             };
             $("#modal-confirm").modal("open");
         });
     }
-    
+
     // **
     // * loginan existing user 
     // * userid is retrieved from the form input
@@ -312,13 +324,13 @@ $(function() {
 
         var userInput = $("#loginUser");
         userid = userInput.val().trim();
-        
-        dbRefUsers.child(userid).once("value").then ( snapshot => {
+
+        dbRefUsers.child(userid).once("value").then(snapshot => {
 
             if (snapshot.exists()) {
                 confirmHeader.text("Welcome back!");
                 confirmMsg.text("Hi " + userid + ". Click xx to see your inventory");
-                comicbookRef = firebase.database().ref(userid+ "/comicbooks");
+                comicbookRef = firebase.database().ref(userid + "/comicbooks");
                 // TO DO: after usr clicks OK, where should he be directed
             } else {
                 confirmHeader.text("Sorry");
@@ -327,5 +339,42 @@ $(function() {
             $("#modal-confirm").modal("open");
         });
     }
+
+    /**
+     * Event to populate the inventory table based on entries from the table
+     */
+    dbRef.ref().on("child_added", function (childSnapshot) {
+
+        // if (childSnapshot.key === userid) {
+            console.log(childSnapshot.key+': '+ childSnapshot.val());
+            console.log(childSnapshot.key+': '+ childSnapshot.val().comicbooks);
+
+
+            // Store everything into a variable.
+            var heroName = childSnapshot.val().heroName;
+            var teamAffiliation = childSnapshot.val().teamAffiliation;
+            var seriesTitle = childSnapshot.val().seriesTitle;
+            var issueNumber = childSnapshot.val().issueNumber;
+            var publishYear = childSnapshot.val().publishYear;
+
+            //TODO: Remove
+            console.log(heroName);
+            console.log(teamAffiliation);
+            console.log(seriesTitle);
+            console.log(issueNumber);
+            console.log(publishYear);
+
+            // Create the new row
+            var newRow = $("<tr>");
+            newRow.append(displayTableEntry("hero-name", heroName));
+            newRow.append(displayTableEntry("group-name", teamAffiliation));
+            newRow.append(displayTableEntry("title-name", seriesTitle));
+            newRow.append(displayTableEntry("issue-number", issueNumber));
+            newRow.append(displayTableEntry("publish-year", publishYear));
+
+            // Append the new row to the table
+            $("#inventory-table > tbody").append(newRow);
+        // }
+    });
 
 })
