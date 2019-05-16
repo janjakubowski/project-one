@@ -317,7 +317,7 @@ $(function() {
 
             if (snapshot.exists()) {
                 confirmHeader.text("Welcome back!");
-                confirmMsg.text("Hi " + userid + ". Click xx to see your inventory");
+                confirmMsg.text("Hi " + userid + ". Click OK to see your inventory");
                 comicbookRef = firebase.database().ref(userid+ "/comicbooks");
                 comicbookRef.on("child_added", function(snapshot) {
                     // replace console.log with table building function
