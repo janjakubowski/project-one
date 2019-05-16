@@ -324,13 +324,18 @@ $(function () {
 
         var userInput = $("#loginUser");
         userid = userInput.val().trim();
-
-        dbRefUsers.child(userid).once("value").then(snapshot => {
+        
+        dbRefUsers.child(userid).once("value").then ( snapshot => {
 
             if (snapshot.exists()) {
                 confirmHeader.text("Welcome back!");
                 confirmMsg.text("Hi " + userid + ". Click xx to see your inventory");
-                comicbookRef = firebase.database().ref(userid + "/comicbooks");
+                comicbookRef = firebase.database().ref(userid+ "/comicbooks");
+                comicbookRef.on("child_added", function(snapshot) {
+                    // replace console.log with table building function
+                    // console.log(JSON.stringify(snapshot.val()));
+                    displayInventory(snapshot.val());
+                });
                 // TO DO: after usr clicks OK, where should he be directed
             } else {
                 confirmHeader.text("Sorry");
@@ -340,41 +345,61 @@ $(function () {
         });
     }
 
+    // **
+    // * add a new comicbook to the inventory 
+    // * param: JSON comicbook object 
+    // * var newComic = {
+    // *    heroName : "Spider-Man",
+    // *    teamAffiliation: "Avengers",   
+    // *    seriesTitle: "Amazing Fantasy",
+    // *    issueNumber: "15",
+    // *    publishYear: "1962"
+    // * };
+    // *
+    function addComicbook (newComic) {
+        comicbookRef = firebase.database().ref(userid + "/comicbooks");
+        comicbookRef.push(newComic);
+    };
+
     /**
-     * Event to populate the inventory table based on entries from the table
+     * Function to populate the inventory table based on entries from the table
      */
-    dbRef.ref().on("child_added", function (childSnapshot) {
+    // dbRef.ref().on("child_added", function (childSnapshot) {
+
+    function displayInventory(comicbook) {
+
+        // console.log(JSON.stringify(comicbook));
 
         // if (childSnapshot.key === userid) {
-            console.log(childSnapshot.key+': '+ childSnapshot.val());
-            console.log(childSnapshot.key+': '+ childSnapshot.val().comicbooks);
+            // console.log(childSnapshot.key+': '+ childSnapshot.val());
+            // console.log(childSnapshot.key+': '+ childSnapshot.val().comicbooks);
 
 
             // Store everything into a variable.
-            var heroName = childSnapshot.val().heroName;
-            var teamAffiliation = childSnapshot.val().teamAffiliation;
-            var seriesTitle = childSnapshot.val().seriesTitle;
-            var issueNumber = childSnapshot.val().issueNumber;
-            var publishYear = childSnapshot.val().publishYear;
+            // var heroName = childSnapshot.val().heroName;
+            // var teamAffiliation = childSnapshot.val().teamAffiliation;
+            // var seriesTitle = childSnapshot.val().seriesTitle;
+            // var issueNumber = childSnapshot.val().issueNumber;
+            // var publishYear = childSnapshot.val().publishYear;
 
-            //TODO: Remove
-            console.log(heroName);
-            console.log(teamAffiliation);
-            console.log(seriesTitle);
-            console.log(issueNumber);
-            console.log(publishYear);
+            // //TODO: Remove
+            // console.log(heroName);
+            // console.log(teamAffiliation);
+            // console.log(seriesTitle);
+            // console.log(issueNumber);
+            // console.log(publishYear);
 
             // Create the new row
             var newRow = $("<tr>");
-            newRow.append(displayTableEntry("hero-name", heroName));
-            newRow.append(displayTableEntry("group-name", teamAffiliation));
-            newRow.append(displayTableEntry("title-name", seriesTitle));
-            newRow.append(displayTableEntry("issue-number", issueNumber));
-            newRow.append(displayTableEntry("publish-year", publishYear));
+            newRow.append(displayTableEntry("hero-name", comicbook.heroName));
+            newRow.append(displayTableEntry("group-name", comicbook.teamAffiliation));
+            newRow.append(displayTableEntry("title-name", comicbook.seriesTitle));
+            newRow.append(displayTableEntry("issue-number", comicbook.issueNumber));
+            newRow.append(displayTableEntry("publish-year", comicbook.publishYear));
 
             // Append the new row to the table
             $("#inventory-table > tbody").append(newRow);
-        // }
-    });
+        }
+    // };
 
 })
