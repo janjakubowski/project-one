@@ -3,11 +3,19 @@
  * Team: Guardians of the GitHub
  * Date: 2019-05-09
 *********************************************/
+img {
+    width: 300px;
+    height: 300px;
+}
 
 .header {
     font-family: 'Bangers';
     background-color: red;
     color: white;
+}
+
+.inventory-item:hover {
+    background-color: #ffff99 !important;
 }
 
 #modal-confirm-header {
@@ -42,8 +50,32 @@ h4{
 }
 
 body {
-    background-image: url("./marvel-characters.jpg");
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
+    background-image: url("../images/marvel.jpg");
+   -webkit-background-size: cover;
+   -moz-background-size: cover;
     background-size: cover;
 }
+
+#addUser, #loginUser {
+    background: grey;
+}
+
+.active{
+    background-color: grey;
+    color: black;
+    font-size: 15px;
+}
+
+#inventory-table{
+    background-color: black;
+    color: red;
+
+}
+
+
+
+
+
+
+
+
