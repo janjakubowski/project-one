@@ -317,7 +317,7 @@ $(function () {
     }
 
     // **
-    // * loginan existing user 
+    // * login an existing user 
     // * userid is retrieved from the form input
     // *
     function loginUser() {
@@ -329,12 +329,13 @@ $(function () {
 
             if (snapshot.exists()) {
                 confirmHeader.text("Welcome back!");
-                confirmMsg.text("Hi " + userid + ". Click xx to see your inventory");
+                confirmMsg.text("Hi " + userid + ". Click OK to see your inventory");
                 comicbookRef = firebase.database().ref(userid+ "/comicbooks");
                 comicbookRef.on("child_added", function(snapshot) {
-                    // replace console.log with table building function
+                    // replace console.log with table building functio
                     // console.log(JSON.stringify(snapshot.val()));
                     displayInventory(snapshot.val());
+
                 });
                 // TO DO: after usr clicks OK, where should he be directed
             } else {
@@ -359,6 +360,7 @@ $(function () {
     function addComicbook (newComic) {
         comicbookRef = firebase.database().ref(userid + "/comicbooks");
         comicbookRef.push(newComic);
+
     };
 
     /**
@@ -401,5 +403,6 @@ $(function () {
             $("#inventory-table > tbody").append(newRow);
         }
     // };
+
 
 })
