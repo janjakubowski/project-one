@@ -409,7 +409,7 @@ $(function () {
             newRow.append(displayTableEntry("publish-year", comicbook.publishYear));
 
             // Append the new row to the table
-            $("#inventory-table > tbody").append(newRow);
+            $("#inventory-table > tbody").prepend(newRow);
         }
     // };
 
