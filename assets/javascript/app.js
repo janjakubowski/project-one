@@ -305,7 +305,7 @@ $(function() {
     }
     
     // **
-    // * loginan existing user 
+    // * login an existing user 
     // * userid is retrieved from the form input
     // *
     function loginUser() {
@@ -319,6 +319,10 @@ $(function() {
                 confirmHeader.text("Welcome back!");
                 confirmMsg.text("Hi " + userid + ". Click xx to see your inventory");
                 comicbookRef = firebase.database().ref(userid+ "/comicbooks");
+                comicbookRef.on("child_added", function(snapshot) {
+                    // replace console.log with table building function
+                    console.log(JSON.stringify(snapshot.val()));
+                });
                 // TO DO: after usr clicks OK, where should he be directed
             } else {
                 confirmHeader.text("Sorry");
@@ -327,5 +331,21 @@ $(function() {
             $("#modal-confirm").modal("open");
         });
     }
+
+    // **
+    // * add a new comicbook to the inventory 
+    // * param: JSON comicbook object 
+    // * var newComic = {
+    // *    heroName : "Spider-Man",
+    // *    teamAffiliation: "Avengers",   
+    // *    seriesTitle: "Amazing Fantasy",
+    // *    issueNumber: "15",
+    // *    publishYear: "1962"
+    // * };
+    // *
+    function addComicbook (newComic) {
+        comicbookRef = firebase.database().ref(userid + "/comicbooks");
+        comicbookRef.push(newComic);
+      };
 
 })
