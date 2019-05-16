@@ -20,3 +20,30 @@
 #modal-confirm {
 width: 20%;
 }
+
+#modal-marvel{
+    background-color: red;
+}
+
+h4{
+    font-family: 'Bangers';
+}
+
+.addNewUser  {
+    background-color: red;
+}
+
+.login-user{
+    background-color: red;
+}
+
+.btn{
+    background-color: red;
+}
+
+body {
+    background-image: url("./marvel-characters.jpg");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+}
