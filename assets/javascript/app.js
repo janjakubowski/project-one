@@ -42,40 +42,6 @@ $(function () {
     $("#modal-confirm").modal();
     $("#modal-get-started").modal();
 
-    function displayCollectionMedia() {
-        event.preventDefault();
-        characterImage.empty();
-        groupImage.empty();
-        issueImage.empty();
-        youtubeVideo.empty();
-        
-        //NOTE: Replace following code with a process to get the required API input fields
-        //      form the data base.  The form references are for a temporary test tool
-        //////Start Trash code
-        event.preventDefault();
-        hero = heroInput.val().trim();
-        heroInput.val("");
-        group = groupInput.val().trim();
-        groupInput.val("");
-        title = titleInput.val().trim();
-        titleInput.val("");
-        issueNumber = issueNumberInput.val().trim();
-        issueNumberInput.val("");
-        publishYear = publishYearInput.val().trim();
-        publishYearInput.val("");
-        if (hero) {
-            getCharacterDetails();
-        }
-        if (group) {
-            getGroupDetails();
-        }
-        if (title && issueNumber) {
-            getComicDetails();
-        }
-        getYoutubeTrailerForCharacter(hero, group);
-        ///////End Trash Code
-    }
-
     function displayRowMedia() {
         clearMedia();
         
@@ -86,12 +52,9 @@ $(function () {
         $issue = $row.find("#issue-number"); 
         $year = $row.find("#publish-year"); 
     
-        // $.each($hero, function () {    
-        //     console.log($(this).text()); 
-        // });
-        hero = $hero.text();
-        group = $group.text();
-        title = $title.text();
+        hero = $hero.text().replace(/the /ig, "");
+        group = $group.text().replace(/the /ig, "");
+        title = $title.text().replace(/the /ig, "");
         issueNumber = $issue.text();
         publishYear = $year.text();
     
@@ -417,8 +380,6 @@ $(function () {
     /**
      * Function to populate the inventory table based on entries from the table
      */
-    // dbRef.ref().on("child_added", function (childSnapshot) {
-
     function displayInventory(comicbook) {
 
 

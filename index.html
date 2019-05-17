@@ -14,7 +14,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
-    <!-- <script src="main.js"></script> -->
 </head>
 
 <body>
@@ -23,9 +22,6 @@
         <h1 class="header center white-text">The Marvel Universe Phantasmagoria</h1>
 
         <button data-target="modal-search" id="modal-marvel" class="btn modal-trigger">Start your search</button>
-        <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Start your search!</a> -->
-
-        <!-- <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalAddTrain">Add a Train</button> -->
 
         <div class="row center">
             <h5 class="header col s12 light">The ultimate guide to storing and finding your MARVEL universe inventory
@@ -42,7 +38,7 @@
             <div class="col m12">
                 <table class="table table-sm table-hover" id='inventory-table'>
                     <thead>
-                        <tr>
+                        <tr id = "header">
                             <th scope="col">Hero Name</th>
                             <th scope="col">Team Affiliation</th>
                             <th scope="col">Series Title</th>
@@ -80,22 +76,18 @@
         </div>
         <div class="form-content">
             <h4>Team Affiliation</h4>
-            <!-- <label for="Group-input">Team Affiliation Input</label> -->
             <input id="group-input" class="form-content" placeholder="Avengers" type="text">
         </div>
         <div class="form-content">
             <h4>Title</h4>
-            <!-- <label for="Title-input">Title Input</label> -->
             <input id="title-input" class="form-content" placeholder="Infinity Gauntlant" type="text">
         </div>
         <div class="form-content">
             <h4>Issue Number</h4>
-            <!-- <label for="Issue-number-input">Issue Number Input</label> -->
             <input id="issue-number-input" class="form-content" placeholder="1" type="text">
         </div>
         <div class="form-content">
             <h4>Publish Year</h4>
-            <!-- <label for="year-issued-input">Year issued Input</label> -->
             <input id="publish-year-input" class="form-content" placeholder="1975" type="text">
         </div>
         <div class="modal-footer">
