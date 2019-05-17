@@ -35,26 +35,7 @@
             <pre id="displayMsg"></pre>
         </div>
         <div class="row center">
-            <div class="col m3">
-                <input placeholder="user-name" id="loginUser" type="text" class="validate">
-                <label class="active" for="loginUser">Returning User</label>
-            </div>
-            <div class="col m1">
-                <button class="login-user btn waves-effect waves-light" type="submit" name="action">
-                    <i class="material-icons right">person</i></button>
-            </div>
-            <div class="col m3">
-                <input placeholder="user-name" id="addUser" type="text" class="validate">
-                <label class="active" for="first_name2">Register New User</label>
-            </div>
-            <div class="col m1">
-                <button class="add-new-user btn waves-effect waves-light" type="submit" name="action">
-                    <i class="material-icons right">person</i></button>
-            </div>
-            <div class="col m4">
-                <button class="btn waves-effect waves-light" type="submit" name="action">Browse as Guest
-                    <i class="material-icons right"></i></button>
-            </div>
+                <button data-target="modal-get-started" class="btn modal-trigger">Get Started</button>
         </div>
 
         <section class="row center">
@@ -121,6 +102,34 @@
             <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="row-entry">Submit</a>
         </div>
     </div>
+
+    <!--Modal: getStarted  -->
+    <div id="modal-get-started" class="modal fade">
+            <!--Content-->
+            <div class="modal-content text-center">
+              <!--Header-->
+              <div id="modal-get-started-header" class="modal-header d-flex justify-content-center">
+                <h2>Welcome</h2>
+              </div>
+              <!--Body-->
+              <div class="modal-body">
+                <p>Registered user's data will be saved, if you search anonymously the data is not saved.</p>
+                  <form class="login-form">
+                      <div class="form-group">
+                        <label for="username-input">User Name</label>
+                        <input  id="username-input" class="form-control" type="text">
+                      </div>
+                      
+                  </form>
+              </div>
+              <!--Footer-->
+              <div class="modal-footer flex-center">
+                <button class="mup-login modal-close btn btn-primary waves-effect" data-type="login" id="login-btn">Login</button>
+                <button class="mup-login modal-close btn btn-primary waves-effect" data-type="add" id="add-user-btn">Register</button>
+              </div>
+            </div>
+        </div>
+        <!--Modal: getStarted -->
 
     <!-- begin modal-confirm  -->
     <div id="modal-confirm" class="modal">

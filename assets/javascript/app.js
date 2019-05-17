@@ -40,6 +40,7 @@ $(function () {
 
     $("#modal-search").modal();
     $("#modal-confirm").modal();
+    $("#modal-get-started").modal();
 
     function displayCollectionMedia() {
         event.preventDefault();
@@ -321,13 +322,23 @@ $(function () {
     /** On-Click for Select*/
     $(document).on("click", "#table-entry", displayRowMedia);
 
-    // login or register new user
-    $(document).on("click", ".add-new-user", addUser);
-    $(document).on("click", ".login-user", loginUser);
+    // On-Click for login or register new user
+    $(document).on("click", ".mup-login", function () {
 
-    //  $(document).on("click", "#row-entry", displayCollectionMedia);
+        event.preventDefault();
 
-    // const displayMsg = document.getElementById('displayMsg');
+        var type = $(this).attr("data-type");
+        userid = $("#username-input").val().trim();
+        $("#username-input").val("");
+
+        if (type === "login") {
+            loginUser();
+        }
+        if (type === "add") {
+            addUser();            
+        }
+
+     });
 
     // **
     // * add a new user 
@@ -335,19 +346,18 @@ $(function () {
     // *
     function addUser() {
 
-        var newUserInput = $("#addUser");
-        userid = newUserInput.val().trim();
-
         dbRefUsers.child(userid).once("value").then(snapshot => {
             if (snapshot.exists()) {
+
                 confirmHeader.text("Sorry");
                 confirmMsg.text("The name " + userid + " is taken, please try another one");
+            
             } else {
+                
                 firebase.database().ref('users/' + userid).set({
                     userid: userid
                 });
 
-                // firebase.database().ref(userid).set;
                 confirmHeader.text("Welcome");
                 confirmMsg.text("Hi " + userid + ". You are now logged in and ready to go!");
                 comicbookRef = firebase.database().ref(userid + "/comicbooks");
@@ -362,9 +372,6 @@ $(function () {
     // *
     function loginUser() {
 
-        var userInput = $("#loginUser");
-        userid = userInput.val().trim();
-
         dbRefUsers.child(userid).once("value").then(snapshot => {
 
             if (snapshot.exists()) {
@@ -372,12 +379,8 @@ $(function () {
                 confirmMsg.text("Hi " + userid + ". Click OK to see your inventory");
                 comicbookRef = firebase.database().ref(userid + "/comicbooks");
                 comicbookRef.on("child_added", function (snapshot) {
-                    // replace console.log with table building functio
-                    // console.log(JSON.stringify(snapshot.val()));
                     displayInventory(snapshot.val());
-
                 });
-                // TO DO: after usr clicks OK, where should he be directed
             } else {
                 confirmHeader.text("Sorry");
                 confirmMsg.text("The name " + userid + " is not registered, please register to join the fun.");
