@@ -331,12 +331,9 @@ $(function () {
                 confirmMsg.text("Hi " + userid + ". Click OK to see your inventory");
                 comicbookRef = firebase.database().ref(userid + "/comicbooks");
                 comicbookRef.on("child_added", function (snapshot) {
-                    // replace console.log with table building functio
-                    // console.log(JSON.stringify(snapshot.val()));
                     displayInventory(snapshot.val());
 
                 });
-                // TO DO: after usr clicks OK, where should he be directed
             } else {
                 confirmHeader.text("Sorry");
                 confirmMsg.text("The name " + userid + " is not registered, please register to join the fun.");
@@ -373,8 +370,6 @@ $(function () {
     /**
      * Function to populate the inventory table based on entries from the table
      */
-    // dbRef.ref().on("child_added", function (childSnapshot) {
-
     function displayInventory(comicbook) {
 
 
