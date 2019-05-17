@@ -10,6 +10,7 @@ var group = "";
 var title = "";
 var issueNumber = "";
 var publishYear = "";
+var omdbApikey = "c969d7f5";
 var youTubeApiKey = "AIzaSyBcitIxopM2jyltwYAVk9qELClFOuHc0D8"
 var apiKey = "ff8b709602975b5a96f9be6741475400";
 var privateKey = "f7963e274cda4d92a76dd0c475e513e5d9dc7708";
@@ -43,20 +44,20 @@ $(function () {
 
     function displayRowMedia() {
         clearMedia();
-        
-        var $row = $(this).closest("tr"),        
-        $hero = $row.find("#hero-name"); 
-        $group = $row.find("#group-name"); 
-        $title = $row.find("#title-name"); 
-        $issue = $row.find("#issue-number"); 
-        $year = $row.find("#publish-year"); 
-    
+
+        var $row = $(this).closest("tr"),
+            $hero = $row.find("#hero-name");
+        $group = $row.find("#group-name");
+        $title = $row.find("#title-name");
+        $issue = $row.find("#issue-number");
+        $year = $row.find("#publish-year");
+
         hero = $hero.text().replace(/the /ig, "");
         group = $group.text().replace(/the /ig, "");
         title = $title.text().replace(/the /ig, "");
         issueNumber = $issue.text();
         publishYear = $year.text();
-    
+
         getCharacterDetails();
         getYoutubeTrailerForCharacter(hero);
         if (group) {
@@ -65,7 +66,7 @@ $(function () {
         if (title && issueNumber) {
             getComicDetails();
         }
-        getmovieDetails();
+        getmovieDetails(hero, group);
 
     }
 
@@ -74,6 +75,7 @@ $(function () {
         $("#group-image").empty();
         $("#issue-image").empty();
         $("#youtube-video").empty();
+        $("#movie-poster").empty();
     }
 
     /**
@@ -286,9 +288,29 @@ $(function () {
     /** On-Click for Select*/
     $(document).on("click", "#table-entry", displayRowMedia);
 
+<<<<<<< Updated upstream
     // login or register new user
     $(document).on("click", ".add-new-user", addUser);
     $(document).on("click", ".login-user", loginUser);
+=======
+    // On-Click for login or register new user
+    $(document).on("click", ".mup-login", function () {
+
+        event.preventDefault();
+
+        var type = $(this).attr("data-type");
+        userid = $("#username-input").val().trim();
+        $("#username-input").val("");
+
+        if (type === "login") {
+            loginUser();
+        }
+        if (type === "add") {
+            addUser();
+        }
+
+    });
+>>>>>>> Stashed changes
 
     // **
     // * add a new user 
@@ -303,7 +325,13 @@ $(function () {
             if (snapshot.exists()) {
                 confirmHeader.text("Sorry");
                 confirmMsg.text("The name " + userid + " is taken, please try another one");
+<<<<<<< Updated upstream
             } else {
+=======
+
+            } else {
+
+>>>>>>> Stashed changes
                 firebase.database().ref('users/' + userid).set({
                     userid: userid
                 });
@@ -348,18 +376,18 @@ $(function () {
     // * add a new comicbook to the inventory 
     // * on.click from input form
     // *
-    function addComicbook () {
-        
+    function addComicbook() {
+
         event.preventDefault();
-        
+
         var newComic = {
-            heroName : heroInput.val().trim(),
-            teamAffiliation: groupInput.val().trim(),   
+            heroName: heroInput.val().trim(),
+            teamAffiliation: groupInput.val().trim(),
             seriesTitle: titleInput.val().trim(),
             issueNumber: issueNumberInput.val().trim(),
             publishYear: publishYearInput.val().trim()
         };
-        
+
         if (userid !== "") {
             comicbookRef = firebase.database().ref(userid + "/comicbooks");
             comicbookRef.push(newComic);
@@ -378,7 +406,7 @@ $(function () {
         // Create the new row
         var newRow = $("<tr>");
         newRow.addClass("inventory-item");
-        newRow.attr("id","table-entry");
+        newRow.attr("id", "table-entry");
         newRow.append(displayTableEntry("hero-name", comicbook.heroName));
         newRow.append(displayTableEntry("group-name", comicbook.teamAffiliation));
         newRow.append(displayTableEntry("title-name", comicbook.seriesTitle));
@@ -391,12 +419,11 @@ $(function () {
 
 
 
-/**
-     * Call marvel API for movie poster details
-     */
+    /**
+         * Call marvel API for movie poster details
+         */
     function getmovieDetails() {
-        var omdbApikey = "c969d7f5";
-        // var omdbApikey = "trilogy";
+
         if (group) {
             searchTopic = group;
         }
@@ -409,55 +436,52 @@ $(function () {
         // if (publishYear) {
         //     queryURL += "&y=" + publishYear;
         // }
-        
-         
-          
-          
-          $.ajax({
-              url: queryURL,
-              method: "GET"
-            }).then(function(response) {   
-               
+
+
+
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+
             if (response) {
-                if(response.Poster){
-                    var url = response.Poster    
+                if (response.Poster) {
+                    var url = response.Poster
                 }
-                if(response.Released){
-                    var yRelease = response.Released    
+                if (response.Released) {
+                    var yRelease = response.Released
                 }
-                if(response.Rated){
-                    var rating = response.Rated    
+                if (response.Rated) {
+                    var rating = response.Rated
                 }
-                if(response.Plot){
-                    var ploting = response.Plot    
+                if (response.Plot) {
+                    var ploting = response.Plot
                 }
                 else {
                     alert("Invalid Input");
                 }
-                
-            }      
-            displayOmdbImage(url, yRelease, rating, ploting)
-            
+
+            }
+            displayOmdbImage(url, yRelease, rating, ploting);
+
         });
     }
-            function displayOmdbImage(url, yRelease, rating, ploting) {
-                // event.preventDefault();
-                var image = $("<img>");
-                image.attr("src", url);
-                var dRelease = $("<p>");
-                dRelease.append(image);
-                dRelease.append("<p>Realease: " + yRelease.toUpperCase() + "</p>");
-                var rate = $("<p>");
-                rate.append(dRelease);
-                rate.append("<p>Rating: " + rating.toUpperCase() + "</p>");
-                var desc = $("<p>");
-                desc.append(rate);
-                desc.append("<p>Plot: " + ploting.toUpperCase() + "</p>");         
-                $("#movie-image").append(desc);
-                
-              }
-              
+    function displayOmdbImage(url, yRelease, rating, ploting) {
+        // event.preventDefault();
+        var image = $("<img>");
+        image.attr("src", url);
+        var dRelease = $("<p>");
+        dRelease.append(image);
+        dRelease.append("<p>Realease: " + yRelease + "</p>");
+        var rate = $("<p>");
+        rate.append(dRelease);
+        rate.append("<p>Rating: " + rating.toUpperCase() + "</p>");
+        var desc = $("<p>");
+        desc.append(rate);
+        desc.append("<p>Plot: " + ploting + "</p>");
+        $("#movie-poster").append(desc);
 
-
+    }
 
 })
