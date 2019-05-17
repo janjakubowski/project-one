@@ -4,8 +4,8 @@
  * Date: 2019-05-09
 *********************************************/
 body {
-    background-image: url("../images/marvel.jpg");
-   -webkit-background-size: cover;
+    background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("../images/marvel.jpg");
+    -webkit-background-size: cover;
    -moz-background-size: cover;
     background-size: cover;
 }
@@ -17,6 +17,10 @@ h4{
 img {
     width: 300px;
     height: 300px;
+}
+
+tr:nth-child(odd){
+    background-color: #f2f2f2;
 }
 
 .active{
@@ -55,10 +59,8 @@ img {
     font-weight: bold;
  }
 
-#inventory-table{
-    background-color: black;
-    color: red;
-
+#header, tr:nth-child(even){
+    background-color: #ffffff;
 }
 
 #modal-confirm {
