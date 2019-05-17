@@ -65,6 +65,8 @@ $(function () {
         if (title && issueNumber) {
             getComicDetails();
         }
+        getmovieDetails();
+
     }
 
     function clearMedia() {
@@ -386,6 +388,75 @@ $(function () {
         // Append the new row to the table
         $("#inventory-table > tbody").prepend(newRow);
     }
+
+
+
+/**
+     * Call marvel API for movie poster details
+     */
+    function getmovieDetails() {
+        var omdbApikey = "c969d7f5";
+        // var omdbApikey = "trilogy";
+        if (group) {
+            searchTopic = group;
+        }
+        else {
+            searchTopic = hero;
+        }
+
+        event.preventDefault();
+        var queryURL = "https://www.omdbapi.com/?t=" + searchTopic + "&apikey=" + omdbApikey;
+        // if (publishYear) {
+        //     queryURL += "&y=" + publishYear;
+        // }
+        
+         
+          
+          
+          $.ajax({
+              url: queryURL,
+              method: "GET"
+            }).then(function(response) {   
+               
+            if (response) {
+                if(response.Poster){
+                    var url = response.Poster    
+                }
+                if(response.Released){
+                    var yRelease = response.Released    
+                }
+                if(response.Rated){
+                    var rating = response.Rated    
+                }
+                if(response.Plot){
+                    var ploting = response.Plot    
+                }
+                else {
+                    alert("Invalid Input");
+                }
+                
+            }      
+            displayOmdbImage(url, yRelease, rating, ploting)
+            
+        });
+    }
+            function displayOmdbImage(url, yRelease, rating, ploting) {
+                // event.preventDefault();
+                var image = $("<img>");
+                image.attr("src", url);
+                var dRelease = $("<p>");
+                dRelease.append(image);
+                dRelease.append("<p>Realease: " + yRelease.toUpperCase() + "</p>");
+                var rate = $("<p>");
+                rate.append(dRelease);
+                rate.append("<p>Rating: " + rating.toUpperCase() + "</p>");
+                var desc = $("<p>");
+                desc.append(rate);
+                desc.append("<p>Plot: " + ploting.toUpperCase() + "</p>");         
+                $("#movie-image").append(desc);
+                
+              }
+              
 
 
 
