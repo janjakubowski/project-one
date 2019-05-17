@@ -3,9 +3,34 @@
  * Team: Guardians of the GitHub
  * Date: 2019-05-09
 *********************************************/
+body {
+    background-image: url("../images/marvel.jpg");
+   -webkit-background-size: cover;
+   -moz-background-size: cover;
+    background-size: cover;
+}
+
+h4{
+    font-family: 'Bangers';
+}
+
 img {
     width: 300px;
     height: 300px;
+}
+
+.active{
+    background-color: grey;
+    color: black;
+    font-size: 15px;
+}
+
+.addNewUser  {
+    background-color: red;
+}
+
+.btn{
+    background-color: red;
 }
 
 .header {
@@ -14,8 +39,30 @@ img {
     color: white;
 }
 
-tr:hover {
-    background-color: #ffff99;
+.inventory-item:hover {
+    background-color: #ffff99 !important;
+}
+
+.login-user{
+    background-color: red;
+}
+
+#addUser, #loginUser {
+    background: grey;
+}
+
+#group-desc, #issue-desc, #char-desc {
+    font-weight: bold;
+ }
+
+#inventory-table{
+    background-color: black;
+    color: red;
+
+}
+
+#modal-confirm {
+width: 20%;
 }
 
 #modal-confirm-header {
@@ -25,33 +72,6 @@ tr:hover {
     text-align: center;
 }
 
-#modal-confirm {
-width: 20%;
-}
-
 #modal-marvel{
     background-color: red;
-}
-
-h4{
-    font-family: 'Bangers';
-}
-
-.addNewUser  {
-    background-color: red;
-}
-
-.login-user{
-    background-color: red;
-}
-
-.btn{
-    background-color: red;
-}
-
-body {
-    /* background-image: url("./marvel-characters.jpg"); */
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
 }

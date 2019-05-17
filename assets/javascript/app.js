@@ -41,39 +41,6 @@ $(function () {
     $("#modal-search").modal();
     $("#modal-confirm").modal();
 
-    function displayCollectionMedia() {
-        event.preventDefault();
-        characterImage.empty();
-        groupImage.empty();
-        issueImage.empty();
-        youtubeVideo.empty();
-
-        //NOTE: Replace following code with a process to get the required API input fields
-        //      form the data base.  The form references are for a temporary test tool
-        //////Start Trash code
-        hero = heroInput.val().trim();
-        heroInput.val("");
-        group = groupInput.val().trim();
-        groupInput.val("");
-        title = titleInput.val().trim();
-        titleInput.val("");
-        issueNumber = issueNumberInput.val().trim();
-        issueNumberInput.val("");
-        publishYear = publishYearInput.val().trim();
-        publishYearInput.val("");
-        if (hero) {
-            getCharacterDetails();
-        }
-        if (group) {
-            getGroupDetails();
-        }
-        if (title && issueNumber) {
-            getComicDetails();
-        }
-        getYoutubeTrailerForCharacter(hero, group);
-        ///////End Trash Code
-    }
-
     function displayRowMedia() {
         clearMedia();
         
@@ -84,12 +51,9 @@ $(function () {
         $issue = $row.find("#issue-number"); 
         $year = $row.find("#publish-year"); 
     
-        // $.each($hero, function () {    
-        //     console.log($(this).text()); 
-        // });
-        hero = $hero.text();
-        group = $group.text();
-        title = $title.text();
+        hero = $hero.text().replace(/the /ig, "");
+        group = $group.text().replace(/the /ig, "");
+        title = $title.text().replace(/the /ig, "");
         issueNumber = $issue.text();
         publishYear = $year.text();
     
@@ -317,7 +281,7 @@ $(function () {
     }
 
     /** On-Click for Enter Hero */
-    $(document).on("click", "#row-entry", displayCollectionMedia);
+    $(document).on("click", "#row-entry", addComicbook);
 
     /** On-Click for Select*/
     $(document).on("click", "#table-entry", displayRowMedia);
@@ -325,10 +289,6 @@ $(function () {
     // login or register new user
     $(document).on("click", ".add-new-user", addUser);
     $(document).on("click", ".login-user", loginUser);
-
-    //  $(document).on("click", "#row-entry", displayCollectionMedia);
-
-    // const displayMsg = document.getElementById('displayMsg');
 
     // **
     // * add a new user 
@@ -373,12 +333,9 @@ $(function () {
                 confirmMsg.text("Hi " + userid + ". Click OK to see your inventory");
                 comicbookRef = firebase.database().ref(userid + "/comicbooks");
                 comicbookRef.on("child_added", function (snapshot) {
-                    // replace console.log with table building functio
-                    // console.log(JSON.stringify(snapshot.val()));
                     displayInventory(snapshot.val());
 
                 });
-                // TO DO: after usr clicks OK, where should he be directed
             } else {
                 confirmHeader.text("Sorry");
                 confirmMsg.text("The name " + userid + " is not registered, please register to join the fun.");
@@ -389,30 +346,38 @@ $(function () {
 
     // **
     // * add a new comicbook to the inventory 
-    // * param: JSON comicbook object 
-    // * var newComic = {
-    // *    heroName : "Spider-Man",
-    // *    teamAffiliation: "Avengers",   
-    // *    seriesTitle: "Amazing Fantasy",
-    // *    issueNumber: "15",
-    // *    publishYear: "1962"
-    // * };
+    // * on.click from input form
     // *
-    function addComicbook(newComic) {
-        comicbookRef = firebase.database().ref(userid + "/comicbooks");
-        comicbookRef.push(newComic);
+    function addComicbook () {
+        
+        event.preventDefault();
+        
+        var newComic = {
+            heroName : heroInput.val().trim(),
+            teamAffiliation: groupInput.val().trim(),   
+            seriesTitle: titleInput.val().trim(),
+            issueNumber: issueNumberInput.val().trim(),
+            publishYear: publishYearInput.val().trim()
+        };
+        
+        if (userid !== "") {
+            comicbookRef = firebase.database().ref(userid + "/comicbooks");
+            comicbookRef.push(newComic);
+        } else {
+            displayInventory(newComic);
+        };
 
     };
 
     /**
      * Function to populate the inventory table based on entries from the table
      */
-    // dbRef.ref().on("child_added", function (childSnapshot) {
-
     function displayInventory(comicbook) {
+
 
         // Create the new row
         var newRow = $("<tr>");
+        newRow.addClass("inventory-item");
         newRow.attr("id","table-entry");
         newRow.append(displayTableEntry("hero-name", comicbook.heroName));
         newRow.append(displayTableEntry("group-name", comicbook.teamAffiliation));
@@ -421,7 +386,7 @@ $(function () {
         newRow.append(displayTableEntry("publish-year", comicbook.publishYear));
 
         // Append the new row to the table
-        $("#inventory-table > tbody").append(newRow);
+        $("#inventory-table > tbody").prepend(newRow);
     }
 
 
