@@ -3,9 +3,38 @@
  * Team: Guardians of the GitHub
  * Date: 2019-05-09
 *********************************************/
+body {
+    background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("../images/marvel.jpg");
+    -webkit-background-size: cover;
+   -moz-background-size: cover;
+    background-size: cover;
+}
+
+h4{
+    font-family: 'Bangers';
+}
+
 img {
     width: 300px;
     height: 300px;
+}
+
+tr:nth-child(odd){
+    background-color: #f2f2f2;
+}
+
+.active{
+    background-color: grey;
+    color: black;
+    font-size: 15px;
+}
+
+.addNewUser  {
+    background-color: red;
+}
+
+.btn{
+    background-color: red;
 }
 
 .header {
@@ -18,6 +47,26 @@ img {
     background-color: #ffff99 !important;
 }
 
+.login-user{
+    background-color: red;
+}
+
+#addUser, #loginUser {
+    background: grey;
+}
+
+#group-desc, #issue-desc, #char-desc {
+    font-weight: bold;
+ }
+
+#header, tr:nth-child(even){
+    background-color: #ffffff;
+}
+
+#modal-confirm {
+width: 20%;
+}
+
 #modal-confirm-header {
     font-family: 'Bangers';
     color: white;
@@ -25,65 +74,6 @@ img {
     text-align: center;
 }
 
-#modal-confirm {
-width: 20%;
-}
-
 #modal-marvel{
     background-color: red;
 }
-
-h4{
-    font-family: 'Bangers';
-}
-
-.addNewUser  {
-    background-color: red;
-}
-
-.login-user{
-    background-color: red;
-}
-
-.btn{
-    background-color: red;
-}
-
-body {
-    background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("../images/marvel.jpg");
-    -webkit-background-size: cover;
-   -moz-background-size: cover;
-    background-size: cover;
-}
-
-
-#addUser, #loginUser {
-    background: grey;
-}
-
-.active{
-    background-color: grey;
-    color: black;
-    font-size: 15px;
-}
-
-#header, tr:nth-child(even){
-    background-color: #ffffff;
-}
-
-tr:nth-child(odd){
-      background-color: #f2f2f2;
-}
-
-        
-       
-
-
-
-
-
-
-
-
-
-
