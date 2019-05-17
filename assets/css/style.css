@@ -51,6 +51,10 @@ tr:nth-child(odd){
     background-color: red;
 }
 
+.waves-effect:hover {
+    background-color: #b71c1c;
+}
+
 #addUser, #loginUser {
     background: grey;
 }
@@ -72,8 +76,4 @@ width: 20%;
     color: white;
     background-color: red;
     text-align: center;
-}
-
-#modal-marvel{
-    background-color: red;
 }
