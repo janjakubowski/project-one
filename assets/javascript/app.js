@@ -103,7 +103,7 @@ $(function () {
                         displayCharacterImage(tnURL, description);
                     }
                     else {
-                        // TODO: placeholder?
+                        // TODO: either leave empty or come up with message for user - picture of deadpool?
                     }
 
                 }
@@ -134,7 +134,7 @@ $(function () {
                         displayGroupImage(tnURL, description);
                     }
                     else {
-                        // TODO: placeholder?
+                        // TODO: either leave empty or come up with message for user - picture of deadpool?
                     }
 
                 }
@@ -172,7 +172,7 @@ $(function () {
                         displayComicImage(tnURL, description);
                     }
                     else {
-                        // TODO: placeholder?
+                        // TODO: either leave empty or come up with message for user - picture of deadpool?
                     }
 
                 }
@@ -253,7 +253,7 @@ $(function () {
                         displayYoutubeTrailer(id);
                     }
                     else {
-                        // TODO: placeholder?
+                        // TODO: either leave empty or come up with message for user - picture of deadpool?
                     }
                 }
             });
@@ -450,12 +450,10 @@ $(function () {
                     var ploting = response.Plot
                 }
                 else {
-                    // TODO: placeholder?
+                    // TODO: either leave empty or come up with message for user - picture of deadpool?
                 }
-
             }
             displayOmdbImage(url, yRelease, rating, ploting)
-
         });
     }
 
