@@ -304,8 +304,8 @@ $(function () {
         }
 
     });
-    /** On-Click for remove inventory */
 
+    /** On-Click for remove inventory */
     $(document).on("click", ".remove", function (e) {
         e.stopPropagation();
         var inventoryItemId = this.id;
@@ -408,6 +408,10 @@ $(function () {
             newRow.attr("id", inventoryId);
             var removeBtn = $("<button>", { class: "btn waves-effect remove", id: inventoryId, text: "Remove" });
             newRow.append(removeBtn);
+        }
+        else {
+            var emptyTable = $("<td>");
+            newRow.append(emptyTable)
         }
 
         // Append the new row to the table
