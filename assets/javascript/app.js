@@ -5,6 +5,7 @@
  ***********************************************/
 // Global Variables
 var searchTopic;
+var inventoryId;
 var hero = "";
 var group = "";
 var title = "";
@@ -44,20 +45,20 @@ $(function () {
 
     function displayRowMedia() {
         clearMedia();
-        
-        var $row = $(this).closest("tr"),        
-        $hero = $row.find("#hero-name"); 
-        $group = $row.find("#group-name"); 
-        $title = $row.find("#title-name"); 
-        $issue = $row.find("#issue-number"); 
-        $year = $row.find("#publish-year"); 
-    
+
+        var $row = $(this).closest("tr"),
+            $hero = $row.find("#hero-name");
+        $group = $row.find("#group-name");
+        $title = $row.find("#title-name");
+        $issue = $row.find("#issue-number");
+        $year = $row.find("#publish-year");
+
         hero = $hero.text().replace(/the /ig, "");
         group = $group.text().replace(/the /ig, "");
         title = $title.text().replace(/the /ig, "");
         issueNumber = $issue.text();
         publishYear = $year.text();
-    
+
         getCharacterDetails();
         getYoutubeTrailerForCharacter(hero);
         if (group) {
@@ -75,6 +76,7 @@ $(function () {
         $("#group-image").empty();
         $("#issue-image").empty();
         $("#youtube-video").empty();
+        $("#movie-image").empty();
     }
 
     /**
@@ -160,7 +162,6 @@ $(function () {
             .then(function (response) {
                 if (response) {
                     if (response.data.results[0]) {
-                        console.log(response);
                         var tnPath = response.data.results[0].thumbnail.path;
                         var tnExtension = response.data.results[0].thumbnail.extension;
                         var tnURL = tnPath + "." + tnExtension;
@@ -254,14 +255,13 @@ $(function () {
                     else {
                         // TODO: either leave empty or come up with message for user - picture of deadpool?
                     }
-
                 }
             });
     }
 
     /**
-     * Render official trailer from response using videoId
-     * @param id 
+    * Render official trailer from response using videoId
+    * @param id 
     */
     function displayYoutubeTrailer(id) {
         var video = "https://www.youtube.com/embed/" + id
@@ -270,10 +270,10 @@ $(function () {
     }
 
     /**
-       * Populate a new table cell, assign an id, and return the value
-       * @param id 
-       * @param value 
-       */
+    * Populate a new table cell, assign an id, and return the value
+    * @param id 
+    * @param value 
+    */
     function displayTableEntry(id, value) {
         var newEntry = $("<td>");
         newEntry.attr("id", id);
@@ -284,10 +284,10 @@ $(function () {
     /** On-Click for Enter Hero */
     $(document).on("click", "#row-entry", addComicbook);
 
-    /** On-Click for Select*/
-    $(document).on("click", "#table-entry", displayRowMedia);
+    /** On-Click for Select */
+    $(document).on("click", ".table-entry", displayRowMedia);
 
-    // On-Click for login or register new user
+    /** On-Click for login or register new user */
     $(document).on("click", ".mup-login", function () {
 
         event.preventDefault();
@@ -300,10 +300,17 @@ $(function () {
             loginUser();
         }
         if (type === "add") {
-            addUser();            
+            addUser();
         }
 
-     });
+    });
+
+    /** On-Click for remove inventory */
+    $(document).on("click", ".remove", function (e) {
+        e.stopPropagation();
+        var inventoryItemId = this.id;
+        removeFromInventory(inventoryItemId);
+    });
 
     // **
     // * add a new user 
@@ -316,9 +323,9 @@ $(function () {
 
                 confirmHeader.text("Sorry");
                 confirmMsg.text("The name " + userid + " is taken, please try another one");
-            
+
             } else {
-                
+
                 firebase.database().ref('users/' + userid).set({
                     userid: userid
                 });
@@ -336,7 +343,6 @@ $(function () {
     // * userid is retrieved from the form input
     // *
     function loginUser() {
-
         dbRefUsers.child(userid).once("value").then(snapshot => {
 
             if (snapshot.exists()) {
@@ -344,7 +350,8 @@ $(function () {
                 confirmMsg.text("Hi " + userid + ". Click OK to see your inventory");
                 comicbookRef = firebase.database().ref(userid + "/comicbooks");
                 comicbookRef.on("child_added", function (snapshot) {
-                    displayInventory(snapshot.val());
+                    var inventoryId = snapshot.key;
+                    displayInventory(snapshot.val(), inventoryId);
                 });
             } else {
                 confirmHeader.text("Sorry");
@@ -358,23 +365,28 @@ $(function () {
     // * add a new comicbook to the inventory 
     // * on.click from input form
     // *
-    function addComicbook () {
-        
+    function addComicbook() {
+
         event.preventDefault();
-        
+
         var newComic = {
-            heroName : heroInput.val().trim(),
-            teamAffiliation: groupInput.val().trim(),   
+            heroName: heroInput.val().trim(),
+            teamAffiliation: groupInput.val().trim(),
             seriesTitle: titleInput.val().trim(),
             issueNumber: issueNumberInput.val().trim(),
             publishYear: publishYearInput.val().trim()
         };
-        
+        heroInput.val("");
+        groupInput.val("");
+        titleInput.val("");
+        issueNumberInput.val("");
+        publishYearInput.val("");
+
         if (userid !== "") {
             comicbookRef = firebase.database().ref(userid + "/comicbooks");
             comicbookRef.push(newComic);
         } else {
-            displayInventory(newComic);
+            displayInventory(newComic, null);
         };
 
     };
@@ -382,18 +394,25 @@ $(function () {
     /**
      * Function to populate the inventory table based on entries from the table
      */
-    function displayInventory(comicbook) {
-
+    function displayInventory(comicbook, inventoryId) {
 
         // Create the new row
         var newRow = $("<tr>");
-        newRow.addClass("inventory-item");
-        newRow.attr("id","table-entry");
+        newRow.addClass("inventory-item table-entry");
         newRow.append(displayTableEntry("hero-name", comicbook.heroName));
         newRow.append(displayTableEntry("group-name", comicbook.teamAffiliation));
         newRow.append(displayTableEntry("title-name", comicbook.seriesTitle));
         newRow.append(displayTableEntry("issue-number", comicbook.issueNumber));
         newRow.append(displayTableEntry("publish-year", comicbook.publishYear));
+        if (null != inventoryId) {
+            newRow.attr("id", inventoryId);
+            var removeBtn = $("<button>", { class: "btn waves-effect remove", id: inventoryId, text: "Remove" });
+            newRow.append(removeBtn);
+        }
+        else {
+            var emptyTable = $("<td>");
+            newRow.append(emptyTable)
+        }
 
         // Append the new row to the table
         $("#inventory-table > tbody").prepend(newRow);
@@ -401,12 +420,11 @@ $(function () {
 
 
 
-/**
-     * Call marvel API for movie poster details
-     */
+    /**
+    * Call marvel API for movie poster details
+    */
     function getmovieDetails() {
         var omdbApikey = "c969d7f5";
-        // var omdbApikey = "trilogy";
         if (group) {
             searchTopic = group;
         }
@@ -416,52 +434,55 @@ $(function () {
 
         event.preventDefault();
         var queryURL = "https://www.omdbapi.com/?t=" + searchTopic + "&apikey=" + omdbApikey;
-          
-          $.ajax({
-              url: queryURL,
-              method: "GET"
-            }).then(function(response) {   
-               
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+
             if (response) {
-                if(response.Poster){
-                    var url = response.Poster    
+                if (response.Poster) {
+                    var url = response.Poster
                 }
-                if(response.Released){
-                    var yRelease = response.Released    
+                if (response.Released) {
+                    var yRelease = response.Released
                 }
-                if(response.Rated){
-                    var rating = response.Rated    
+                if (response.Rated) {
+                    var rating = response.Rated
                 }
-                if(response.Plot){
-                    var ploting = response.Plot    
+                if (response.Plot) {
+                    var ploting = response.Plot
                 }
                 else {
-                        // TODO: either leave empty or come up with message for user - picture of deadpool?
-                    }
-                
-            }      
+                    // TODO: either leave empty or come up with message for user - picture of deadpool?
+                }
+            }
             displayOmdbImage(url, yRelease, rating, ploting)
-            
         });
     }
-            function displayOmdbImage(url, yRelease, rating, ploting) {
-                // event.preventDefault();
-                var image = $("<img>");
-                image.attr("src", url);
-                var dRelease = $("<p>");
-                dRelease.append(image);
-                dRelease.append("<p>Realease: " + yRelease.toUpperCase() + "</p>");
-                var rate = $("<p>");
-                rate.append(dRelease);
-                rate.append("<p>Rating: " + rating.toUpperCase() + "</p>");
-                var desc = $("<p>");
-                desc.append(rate);
-                desc.append("<p>Plot: " + ploting.toUpperCase() + "</p>");         
-                $("#movie-image").append(desc);
-                
-              }
-              
 
+    function displayOmdbImage(url, yRelease, rating, ploting) {
+        var image = $("<img>");
+        image.attr("src", url);
+        var dRelease = $("<p>");
+        dRelease.append(image);
+        dRelease.append("<p>Realease: " + yRelease.toUpperCase() + "</p>");
+        var rate = $("<p>");
+        rate.append(dRelease);
+        rate.append("<p>Rating: " + rating.toUpperCase() + "</p>");
+        var desc = $("<p>");
+        desc.append(rate);
+        desc.append("<p>Plot: " + ploting.toUpperCase() + "</p>");
+        $("#movie-image").append(desc);
+
+    }
+
+    function removeFromInventory(inventoryItemId) {
+        var invIDRef = firebase.database().ref().child(userid).child('comicbooks').child(inventoryItemId);
+        invIDRef.remove();
+        var deletedRow = $("#" + inventoryItemId);
+        deletedRow.empty();
+    }
 
 
 })

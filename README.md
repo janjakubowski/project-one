@@ -24,7 +24,6 @@
 ### **The inventory list**
      * If the user signs in, their inventory list will become available for them to see
 ## **Enhancements**
-     * Removing item from inventory
      * Adding a favorites/wish list for them to reference
      * Adding Ebay so they can see listings for their items in their favorites
      * Username suggestions when they one they want is already taken
