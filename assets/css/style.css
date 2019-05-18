@@ -24,8 +24,7 @@ tr:nth-child(odd){
 }
 
 .active{
-    background-color: grey;
-    color: black;
+    color: gray;
     font-size: 15px;
 }
 
@@ -53,10 +52,6 @@ tr:nth-child(odd){
 
 .waves-effect:hover {
     background-color: #b71c1c;
-}
-
-#addUser, #loginUser {
-    background: grey;
 }
 
 #group-desc, #issue-desc, #char-desc {
