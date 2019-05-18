@@ -32,7 +32,7 @@ tr:nth-child(odd){
     background-color: red;
 }
 
-.btn{
+.btn {
     background-color: red;
 }
 
@@ -46,10 +46,13 @@ tr:nth-child(odd){
     background-color: #ffff99 !important;
 }
 
-.login-user{
+.login-user {
     background-color: red;
 }
 
+.remove {
+    margin-top: 6px;
+}
 .waves-effect:hover {
     background-color: #b71c1c;
 }

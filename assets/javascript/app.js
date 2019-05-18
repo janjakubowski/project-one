@@ -103,7 +103,7 @@ $(function () {
                         displayCharacterImage(tnURL, description);
                     }
                     else {
-                        alert("Invalid Input");
+                        // TODO: placeholder?
                     }
 
                 }
@@ -134,7 +134,7 @@ $(function () {
                         displayGroupImage(tnURL, description);
                     }
                     else {
-                        alert("Invalid Input");
+                        // TODO: placeholder?
                     }
 
                 }
@@ -162,7 +162,6 @@ $(function () {
             .then(function (response) {
                 if (response) {
                     if (response.data.results[0]) {
-                        console.log(response);
                         var tnPath = response.data.results[0].thumbnail.path;
                         var tnExtension = response.data.results[0].thumbnail.extension;
                         var tnURL = tnPath + "." + tnExtension;
@@ -173,7 +172,7 @@ $(function () {
                         displayComicImage(tnURL, description);
                     }
                     else {
-                        alert("Invalid Input");
+                        // TODO: placeholder?
                     }
 
                 }
@@ -254,9 +253,8 @@ $(function () {
                         displayYoutubeTrailer(id);
                     }
                     else {
-                        alert("Invalid Input");
+                        // TODO: placeholder?
                     }
-
                 }
             });
     }
@@ -307,10 +305,10 @@ $(function () {
 
     });
     /** On-Click for remove inventory */
-    
-    $(document).on("click", ".remove", function(){
+
+    $(document).on("click", ".remove", function (e) {
+        e.stopPropagation();
         var inventoryItemId = this.id;
-        console.log("click: " + this.id);
         removeFromInventory(inventoryItemId);
     });
 
@@ -378,6 +376,11 @@ $(function () {
             issueNumber: issueNumberInput.val().trim(),
             publishYear: publishYearInput.val().trim()
         };
+        heroInput.val("");
+        groupInput.val("");
+        titleInput.val("");
+        issueNumberInput.val("");
+        publishYearInput.val("");
 
         if (userid !== "") {
             comicbookRef = firebase.database().ref(userid + "/comicbooks");
@@ -447,7 +450,7 @@ $(function () {
                     var ploting = response.Plot
                 }
                 else {
-                    alert("Invalid Input");
+                    // TODO: placeholder?
                 }
 
             }
@@ -473,8 +476,10 @@ $(function () {
     }
 
     function removeFromInventory(inventoryItemId) {
-        console.log("child? " + firebase.database().ref().child(inventoryItemId))
-        firebase.database().ref().child(inventoryItemId).remove();
+        var invIDRef = firebase.database().ref().child(userid).child('comicbooks').child(inventoryItemId);
+        invIDRef.remove();
+        var deletedRow = $("#" + inventoryItemId);
+        deletedRow.empty();
     }
 
 
