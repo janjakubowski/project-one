@@ -15,6 +15,10 @@ var apiKey = "ff8b709602975b5a96f9be6741475400";
 var privateKey = "f7963e274cda4d92a76dd0c475e513e5d9dc7708";
 
 // database related global variables
+var finalDropInBottom = 40;
+var currentDropInBottom = 100;
+
+// database related global variables
 var userid = "";
 const dbRefUsers = firebase.database().ref().child('users');
 var comicbookRef = ""; // database reference to user's comicbooks after login
@@ -31,16 +35,38 @@ var issueNumberInput = $("#issue-number-input");
 var publishYearInput = $("#publish-year-input");
 var confirmHeader = $("#modal-confirm-header");
 var confirmMsg = $("#modal-confirm-message");
+var charDropIn = $(".dropin-char-wrapper");
 
 /**
  * On click function to dispaly any media associated with the character/group
- */
+ */ 
 
 $(function () {
 
     $("#modal-search").modal();
     $("#modal-confirm").modal();
     $("#modal-get-started").modal();
+
+    $("#start-search").attr("disabled", true);
+    
+    setTimeout(dropItIn,1500);
+    
+    // On-Click get started
+    $(document).on("click", ".start-btn", function () {
+        $("#dropin").remove();
+        $("#modal-get-started").modal("open");
+        $("#start-search").attr("disabled", false);
+
+    });
+
+    function dropItIn () {
+        currentDropInBottom -= 10;
+        if (currentDropInBottom >= finalDropInBottom) {
+            var currentString = currentDropInBottom + "%";
+            charDropIn.animate({ bottom: currentString  }, "normal");
+            setTimeout(dropItIn,150);
+        }
+    }
 
     function displayRowMedia() {
         clearMedia();
