@@ -101,7 +101,7 @@ $(function () {
                         displayCharacterImage(tnURL, description);
                     }
                     else {
-                        alert("Invalid Input");
+                        // TODO: either leave empty or come up with message for user - picture of deadpool?
                     }
 
                 }
@@ -132,7 +132,7 @@ $(function () {
                         displayGroupImage(tnURL, description);
                     }
                     else {
-                        alert("Invalid Input");
+                        // TODO: either leave empty or come up with message for user - picture of deadpool?
                     }
 
                 }
@@ -171,7 +171,7 @@ $(function () {
                         displayComicImage(tnURL, description);
                     }
                     else {
-                        alert("Invalid Input");
+                        // TODO: either leave empty or come up with message for user - picture of deadpool?
                     }
 
                 }
@@ -252,7 +252,7 @@ $(function () {
                         displayYoutubeTrailer(id);
                     }
                     else {
-                        alert("Invalid Input");
+                        // TODO: either leave empty or come up with message for user - picture of deadpool?
                     }
 
                 }
@@ -416,12 +416,6 @@ $(function () {
 
         event.preventDefault();
         var queryURL = "https://www.omdbapi.com/?t=" + searchTopic + "&apikey=" + omdbApikey;
-        // if (publishYear) {
-        //     queryURL += "&y=" + publishYear;
-        // }
-        
-         
-          
           
           $.ajax({
               url: queryURL,
@@ -442,8 +436,8 @@ $(function () {
                     var ploting = response.Plot    
                 }
                 else {
-                    alert("Invalid Input");
-                }
+                        // TODO: either leave empty or come up with message for user - picture of deadpool?
+                    }
                 
             }      
             displayOmdbImage(url, yRelease, rating, ploting)
